@@ -1,0 +1,33 @@
+{
+  "name": "aws-alb-api",
+  "version": "1.0.0",
+  "description": "End-point using AWS Gateway + Lambda to register/unregister Targets",
+  "main": "lambda.js",
+  "scripts": {
+    "test": "clear;mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkhazin/aws-alb-api.git"
+  },
+  "keywords": [
+    "nodejs",
+    "aws",
+    "alb"
+  ],
+  "author": "Vlad Khazin <vladimir.khazin@icssolutions.ca>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vkhazin/aws-alb-api/issues"
+  },
+  "homepage": "https://github.com/vkhazin/aws-alb-api#readme",
+  "dependencies": {
+    "aws-sdk": "^2.88.0",
+    "bluebird": "^3.5.0",
+    "config": "^1.26.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.4.2"
+  }
+}
