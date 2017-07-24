@@ -22,9 +22,11 @@
   },
   "homepage": "https://github.com/vkhazin/aws-alb-api#readme",
   "dependencies": {
+    "aws-lambda-router": "^0.2.2",
     "aws-sdk": "^2.88.0",
     "bluebird": "^3.5.0",
-    "config": "^1.26.1"
+    "config": "^1.26.1",
+    "path-match": "^1.2.4"
   },
   "devDependencies": {
     "chai": "^4.1.0",

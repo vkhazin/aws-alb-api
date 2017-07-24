@@ -3,76 +3,45 @@
 Dependencies
 **********************************************************************************/
 const promise             = require('bluebird')
-const appInfo             = require('./package')
 const config 		          = require('config');
 const logger              = require('./logger').create(config);
-const healthCheckModule   = require('./healthCheck').create(config, logger);
+const echoModule          = require('./echo').create(config, logger);
+const targetGroupModule   = require('./targetGroup').create(config, logger);
 /*********************************************************************************/
 
-const echo = function() {
-  return promise.resolve ({
-    name: appInfo.name,
-    version: appInfo.version,
-    description: appInfo.description,
-    author: appInfo.author,
-    node: process.version
-  });
-};
+/*********************************************************************************/
+//Handlers
+/*********************************************************************************/
+const echoHandler = (event, context, callback) => {
+  return echoModule.echo()
+    .then(data => {
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify(data)
+      }
+      callback(null, response);
+      return promise.resolve(response);
+    });
+}
 
-exports.handler = (event, context, callback) => {
+/*********************************************************************************/
+//Routes
+/*********************************************************************************/
+const routes = [
+  {
+    method: 'GET',
+    path: '/',
+    handler: echoHandler
+  },
+  {
+    method: 'GET',
+    path: '/echo',
+    handler: echoHandler
+  }
+];
 
-  logger.trace(event)
-  logger.trace(context)
-  
-  let response = {
-    statusCode: 500,
-    body: 'Unexpected error'
-  };
-  
-  return new promise(resolve => {
-    switch (event.httpMethod) {
-      case 'GET':
-        if (event.path.toLowerCase() === '/healthcheck') {
-          return healthCheckModule.ping()
-            .then(response => {
-              return resolve({
-                statusCode: 200,
-                body: response  
-              })
-          })
-            .catch(response => {
-              return resolve({
-                statusCode: 500,
-                body: response  
-              });            
-          })
-        } else {
-          return echo()
-            .then(data => {
-              return resolve({
-                statusCode: 200,
-                body: data 
-              })
-            })
-        }
-        break;
-      default:
-        response = {
-          statusCode: 400,
-          body: {
-            message: "Unsupported method or path"
-          }
-        };
-        logger.error(response);
-        return resolve(response)
-    }    
-  })
-  .then(response => {
-    if (response.body) {
-      response.body = JSON.stringify(response.body);
-    }
-    callback(null, response);
-    return promise.resolve(response);    
-  });
-  
-};
+const httpRouter		    = require('./http-router').create(routes);
+/*********************************************************************************/
+
+
+exports.handler = httpRouter.handler;

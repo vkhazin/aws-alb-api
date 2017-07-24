@@ -9,32 +9,32 @@ const instanceId2 = 'i-019ebfaf92631c228';
 
 describe('targetGroup', function() {
   
-//   it('GetTargetHealth', function(done) {
-//     targetGroup.getTargetHealth(targetGroupArn)
-//       .then(response => {
-//         console.log(JSON.stringify(response))
-//         assert(response);
-//       })
-//       .done(function(){
-//         done();
-//     });
-//   });
+  it('GetTargetHealth', function(done) {
+    targetGroup.getTargetHealth(targetGroupArn)
+      .then(response => {
+        console.log(JSON.stringify(response))
+        assert(response);
+      })
+      .done(function(){
+        done();
+    });
+  });
 
-//   it('Deregister Targets', function(done) {
-//     const targets = [
-//       {
-//         Id: instanceId1
-//       }
-//     ];
-//     targetGroup.deregisterTargets(targetGroupArn, targets)
-//       .then(response => {
-//         console.log(JSON.stringify(response))
-//         assert(response);
-//       })
-//       .done(function(){
-//         done();
-//     });
-//   });
+  it('Deregister Targets', function(done) {
+    const targets = [
+      {
+        Id: instanceId1
+      }
+    ];
+    targetGroup.deregisterTargets(targetGroupArn, targets)
+      .then(response => {
+        console.log(JSON.stringify(response))
+        assert(response);
+      })
+      .done(function(){
+        done();
+    });
+  });
   
   it('Register Targets', function(done) {
     const targets = [
