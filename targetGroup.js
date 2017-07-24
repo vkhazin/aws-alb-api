@@ -7,7 +7,7 @@ exports.create =  function (config, logger) {
   return (function () {
     return {
       
-      getTargetHealth: (targetGroupArn) => {
+      getTargetsHealth: (targetGroupArn) => {
         return elbv2.describeTargetHealthAsync({
           TargetGroupArn: targetGroupArn
         })
@@ -27,17 +27,18 @@ exports.create =  function (config, logger) {
 //         }
 //       ]
 //       
-//       Override group port
-//       Targets: [
-//       {
-//        Id: "i-80c8dd94", 
-//        Port: 80
-//       }, 
-//       {
-//         Id: "i-80c8dd94", 
-//         Port: 766
-//       }
-//     ]
+//         Override group port
+//         Targets: [
+//           {
+//             Id: "i-80c8dd94", 
+//             Port: 80
+//           }, 
+//           {
+//             Id: "i-80c8dd94", 
+//             Port: 766
+//           }
+//         ]
+
         return elbv2.registerTargetsAsync({
           TargetGroupArn: targetGroupArn, 
           Targets: targets

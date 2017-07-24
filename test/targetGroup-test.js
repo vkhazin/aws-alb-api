@@ -9,8 +9,8 @@ const instanceId2 = 'i-019ebfaf92631c228';
 
 describe('targetGroup', function() {
   
-  it('GetTargetHealth', function(done) {
-    targetGroup.getTargetHealth(targetGroupArn)
+  it('GetTargetsHealth', function(done) {
+    targetGroup.getTargetsHealth(targetGroupArn)
       .then(response => {
         console.log(JSON.stringify(response))
         assert(response);
