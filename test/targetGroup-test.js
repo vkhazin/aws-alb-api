@@ -20,6 +20,21 @@ describe('targetGroup', function() {
     });
   });
 
+  it('GetTargetsHealth - invalid group arn', function(done) {
+    targetGroup.getTargetsHealth(targetGroupArn + 'bad')
+      .then(response => {
+        console.log(JSON.stringify(response))
+        assert(response);
+      })
+      .catch(err => {
+        console.error(JSON.stringify(err))
+        assert(err);        
+      })
+      .done(function(){
+        done();
+    });
+  });
+  
   it('Deregister Targets', function(done) {
     const targets = [
       {

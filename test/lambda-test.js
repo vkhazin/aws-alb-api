@@ -37,7 +37,7 @@ describe('lambda', function() {
 		});
 	});
 
-	describe('#getTargetHealth', function() {
+	describe('#getTargetHealth - success', function() {
 		it('Should return target health info', function(done) {
       const event = {
         "resource": "/",
@@ -54,9 +54,28 @@ describe('lambda', function() {
 					done();
 				});
 		});
+    
+		it('Should throw 500 error', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn + 'bad'),
+        "httpMethod": "GET",
+        "body": null
+      };
+      
+			lambda.handler(event, context, callback)
+				.then(function(response){
+          assert.equal(response.statusCode, 500, 'Status code should be equal 500');
+				})
+				.done(function(){
+					done();
+				});
+		});
+    
 	});
   
   describe('#deregisterTargets', function() {
+    
 		it('De-Register by Url', function(done) {
       const event = {
         "resource": "/",
@@ -68,6 +87,24 @@ describe('lambda', function() {
 			lambda.handler(event, context, callback)
 				.then((response) => {
           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+				})
+				.done(function(){
+					done();
+				});
+		});
+
+		it('De-Register by Url - invalid group arn', function(done) {
+      //Bad instances id does not causes an error from aws-cli :-(
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn + 'bad') + "/" + encodeURIComponent(instanceId1),
+        "httpMethod": "DELETE",
+        "body": null
+      };
+      
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 500, 'Status code should be equal 500');
 				})
 				.done(function(){
 					done();
@@ -137,7 +174,24 @@ describe('lambda', function() {
 					done();
 				});
 		});
-   
+
+		it('Register by Url - invalid input', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1 + 'bad'),
+        "httpMethod": "POST",
+        "body": null
+      };
+      
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 500, 'Status code should be equal 500');
+				})
+				.done(function(){
+					done();
+				});
+		});
+  
     it('Register by Url + Port', function(done) {
       const event = {
         "resource": "/",

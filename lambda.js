@@ -21,6 +21,14 @@ const echoHandler = (event, context, callback) => {
       }
       callback(null, response);
       return promise.resolve(response);
+    })
+    .catch(err => {
+      const response = {
+        statusCode: 500,
+        body: err
+      }
+      callback(null, response);
+      return promise.resolve(response);    
     });
 }
 
@@ -33,6 +41,14 @@ const describeGroupHealthHandler = (event, context, callback) => {
       }
       callback(null, response);
       return promise.resolve(response);
+    })
+    .catch(err => {
+      const response = {
+        statusCode: 500,
+        body: err
+      }
+      callback(null, response);
+      return promise.resolve(response);    
     });
 }
 
@@ -58,6 +74,14 @@ const deregisterTargets = (event, context, callback) => {
         };
         callback(null, response);
         return promise.resolve(response);        
+      })
+      .catch(err => {
+        const response = {
+          statusCode: 500,
+          body: err
+        }
+        callback(null, response);
+        return promise.resolve(response);    
       });
 }
 
@@ -84,6 +108,14 @@ const registerTargets = (event, context, callback) => {
         };
         callback(null, response);
         return promise.resolve(response);        
+      })
+      .catch(err => {
+        const response = {
+          statusCode: 500,
+          body: err
+        }
+        callback(null, response);
+        return promise.resolve(response);    
       });
 }
 

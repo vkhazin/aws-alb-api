@@ -1,5 +1,21 @@
 {
   "log": {
     "level": 2
+  },
+  "authC": {
+    "apiKeys": [
+      {
+        "key": "asdfasdfs",
+        "roles": [
+          "nodejs-alb"
+        ]
+      }
+    ],
+    "roles": [
+      {
+        "role": "nodejs-alb",
+        "targetGroupArn": "aarn:aws:elasticloadbalancing:us-east-2:811322200214:targetgroup/smith-poc-nodejs-restart-tg/7c25fe0e5ca71022sdfasdf"
+      }
+    ]
   }
 }
