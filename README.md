@@ -12,27 +12,55 @@ GET: /:target-group-arn
 ```
 ### Response
 ```
-[  
-   {  
-      "Target":{  
-         "Id":"i-019ebfaf92631c228",
-         "Port":3000
-      },
-      "HealthCheckPort":"3000",
-      "TargetHealth":{  
-         "State":"healthy"
-      }
-   },
-   {  
-      "Target":{  
-         "Id":"i-0b314f9c31a99621c",
-         "Port":3000
-      },
-      "HealthCheckPort":"3000",
-      "TargetHealth":{  
-         "State":"healthy"
-      }
-   }
+[
+    {
+        "Target": {
+            "Id": "i-019ebfaf92631c228",
+            "Port": 3000,
+            "Instance": {
+                "InstanceType": "t2.micro",
+                "Placement": {
+                    "AvailabilityZone": "us-east-2a",
+                    "GroupName": "",
+                    "Tenancy": "default"
+                },
+                "State": {
+                    "Code": 16,
+                    "Name": "running"
+                },
+                "SubnetId": "subnet-da1bebb3"
+            }
+        },
+        "HealthCheckPort": "3000",
+        "TargetHealth": {
+            "State": "healthy"
+        }
+    },
+    {
+        "Target": {
+            "Id": "i-0b314f9c31a99621c",
+            "Port": 3000,
+            "Instance": {
+                "InstanceType": "t2.micro",
+                "Placement": {
+                    "AvailabilityZone": "us-east-2c",
+                    "GroupName": "",
+                    "Tenancy": "default"
+                },
+                "State": {
+                    "Code": 16,
+                    "Name": "running"
+                },
+                "SubnetId": "subnet-57ffd41d"
+            }
+        },
+        "HealthCheckPort": "3000",
+        "TargetHealth": {
+            "State": "unhealthy",
+            "Reason": "Target.ResponseCodeMismatch",
+            "Description": "Health checks failed with these codes: [500]"
+        }
+    }
 ]
 ```
 

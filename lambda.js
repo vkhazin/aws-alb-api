@@ -7,6 +7,7 @@ const config 		          = require('config');
 const logger              = require('./logger').create(config);
 const echoModule          = require('./echo').create(config, logger);
 const targetGroupModule   = require('./targetGroup').create(config, logger);
+const ec2Module           = require('./ec2').create(config, logger);
 /*********************************************************************************/
 
 /*********************************************************************************/
@@ -34,13 +35,31 @@ const echoHandler = (event, context, callback) => {
 
 const describeGroupHealthHandler = (event, context, callback) => {
   return targetGroupModule.getTargetsHealth(event.pathParameters.targetGroupArn)
-    .then(data => {
-      const response = {
-        statusCode: 200,
-        body: data
-      }
-      callback(null, response);
-      return promise.resolve(response);
+    .then(groupData => {
+      const instanceIds = groupData.map(target => target.Target.Id);
+      return ec2Module.describeInstances(instanceIds)
+        .then(instancesData => {
+          const transformedGroupData = groupData.map(target => {
+              const filteredInstancesData = instancesData.filter(instanceData => 
+                  instanceData.InstanceId == target.Target.Id);
+              if (filteredInstancesData.length > 0) {
+                  const instanceData = filteredInstancesData[0];
+                  target.Target.Instance = {
+                      InstanceType: instanceData.InstanceType,
+                      Placement: instanceData.Placement,
+                      State: instanceData.State,
+                      SubnetId: instanceData.SubnetId
+                  };
+              }
+              return target;
+          });        
+          const response = {
+            statusCode: 200,
+            body: transformedGroupData
+          }
+          callback(null, response);
+          return promise.resolve(response);
+      });
     })
     .catch(err => {
       const response = {
@@ -48,7 +67,7 @@ const describeGroupHealthHandler = (event, context, callback) => {
         body: err
       }
       callback(null, response);
-      return promise.resolve(response);    
+      return promise.resolve(response);
     });
 }
 

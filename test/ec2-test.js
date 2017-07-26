@@ -22,8 +22,12 @@ describe('ec2', function() {
   it('describe instances invalid instanceId', function(done) {
     ec2.describeInstances(['bad instance id'])
       .then(response => {
-        console.log(JSON.stringify(response))
-        assert(response);
+//         console.log(JSON.stringify(response))
+        assert.fail(response);
+      })
+      .catch(err => {
+//         console.log(JSON.stringify(err))
+        assert(err);
       })
       .done(function(){
         done();
