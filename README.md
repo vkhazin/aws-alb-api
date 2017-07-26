@@ -13,54 +13,54 @@ GET: /:target-group-arn
 ### Response
 ```
 [
-    {
-        "Target": {
-            "Id": "i-019ebfaf92631c228",
-            "Port": 3000,
-            "Instance": {
-                "InstanceType": "t2.micro",
-                "Placement": {
-                    "AvailabilityZone": "us-east-2a",
-                    "GroupName": "",
-                    "Tenancy": "default"
-                },
-                "State": {
-                    "Code": 16,
-                    "Name": "running"
-                },
-                "SubnetId": "subnet-da1bebb3"
-            }
+  {
+    "Target": {
+      "Id": "i-019ebfaf92631c228",
+      "Port": 3000,
+      "Instance": {
+        "InstanceType": "t2.micro",
+        "Placement": {
+          "AvailabilityZone": "us-east-2a",
+          "GroupName": "",
+          "Tenancy": "default"
         },
-        "HealthCheckPort": "3000",
-        "TargetHealth": {
-            "State": "healthy"
-        }
+        "State": {
+          "Code": 16,
+          "Name": "running"
+        },
+        "SubnetId": "subnet-da1bebb3"
+      }
     },
-    {
-        "Target": {
-            "Id": "i-0b314f9c31a99621c",
-            "Port": 3000,
-            "Instance": {
-                "InstanceType": "t2.micro",
-                "Placement": {
-                    "AvailabilityZone": "us-east-2c",
-                    "GroupName": "",
-                    "Tenancy": "default"
-                },
-                "State": {
-                    "Code": 16,
-                    "Name": "running"
-                },
-                "SubnetId": "subnet-57ffd41d"
-            }
-        },
-        "HealthCheckPort": "3000",
-        "TargetHealth": {
-            "State": "unhealthy",
-            "Reason": "Target.ResponseCodeMismatch",
-            "Description": "Health checks failed with these codes: [500]"
-        }
+    "HealthCheckPort": "3000",
+    "TargetHealth": {
+      "State": "healthy"
     }
+  },
+  {
+    "Target": {
+      "Id": "i-0b314f9c31a99621c",
+      "Port": 3000,
+      "Instance": {
+        "InstanceType": "t2.micro",
+        "Placement": {
+          "AvailabilityZone": "us-east-2c",
+          "GroupName": "",
+          "Tenancy": "default"
+        },
+        "State": {
+          "Code": 16,
+          "Name": "running"
+        },
+        "SubnetId": "subnet-57ffd41d"
+        }
+      },
+    "HealthCheckPort": "3000",
+    "TargetHealth": {
+      "State": "unhealthy",
+      "Reason": "Target.ResponseCodeMismatch",
+      "Description": "Health checks failed with these codes: [500]"
+    }
+  }
 ]
 ```
 
@@ -88,11 +88,19 @@ Body: [
 
 ### Response
 ```
-{  
-  "ResponseMetadata":{  
-    "RequestId":"acb95a89-70a6-11e7-a0f8-292596ece318"
+[
+  {
+    "Target": {
+      "Id": "i-0b314f9c31a99621c",
+      "Port": 3000
+    },
+    "TargetHealth": {
+      "State": "draining",
+      "Reason": "Target.DeregistrationInProgress",
+      "Description": "Target deregistration is in progress"
+    }
   }
-}
+]
 ```
 
 ## Register Target with instance-id
@@ -117,9 +125,17 @@ Body: [
 
 ### Response
 ```
-{  
-  "ResponseMetadata": {  
-    "RequestId":"acb95a89-70a6-11e7-a0f8-292596ece318"
+[
+  {
+    "Target": {
+    "Id": "i-0b314f9c31a99621c",
+      "Port": 3000
+    },
+    "TargetHealth": {
+      "State": "initial",
+      "Reason": "Elb.RegistrationInProgress",
+      "Description": "Target registration is in progress"
+    }
   }
-}
+]
 ```

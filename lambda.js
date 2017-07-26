@@ -87,7 +87,7 @@ const deregisterTargets = (event, context, callback) => {
   
     return targetGroupModule.deregisterTargets(targetGroupArn, targets)
       .then(deregisterResponse => {
-        return targetGroupModule.getTargetsHealth(targetGroupArn)
+        return targetGroupModule.getTargetsHealth(targetGroupArn, targets)
           .then(targetGroupResponse => {
             const response = {
               statusCode: 200,
@@ -124,7 +124,7 @@ const registerTargets = (event, context, callback) => {
   
     return targetGroupModule.registerTargets(targetGroupArn, targets)
       .then(registerResponse => {
-        return targetGroupModule.getTargetsHealth(targetGroupArn)
+        return targetGroupModule.getTargetsHealth(targetGroupArn, targets)
           .then(targetGroupResponse => {
             const response = {
               statusCode: 200,

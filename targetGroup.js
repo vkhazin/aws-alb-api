@@ -7,9 +7,10 @@ exports.create =  function (config, logger) {
   return (function () {
     return {
       
-      getTargetsHealth: (targetGroupArn) => {
+      getTargetsHealth: (targetGroupArn, targets) => {
         return elbv2.describeTargetHealthAsync({
-          TargetGroupArn: targetGroupArn
+          TargetGroupArn: targetGroupArn,
+          Targets: targets
         })
         .then(response => {
           return promise.resolve(response.TargetHealthDescriptions);

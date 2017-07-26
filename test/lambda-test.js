@@ -24,141 +24,141 @@ const port = 3000;
       
 describe('lambda', function() {
   
-// 	describe('#echo', function() {
-// 		it('Should return echo info', function(done) {
-// 			lambda.handler(echoEvent, context, callback)
-// 				.then(function(response){
-//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-//           assert.equal(typeof(response.body), 'string', 'Body must be string - not json');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
-// 	});
+	describe('#echo', function() {
+		it('Should return echo info', function(done) {
+			lambda.handler(echoEvent, context, callback)
+				.then(function(response){
+          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+          assert.equal(typeof(response.body), 'string', 'Body must be string - not json');
+				})
+				.done(function(){
+					done();
+				});
+		});
+	});
 
-// 	describe('#getTargetHealth - success', function() {
-// 		it('Should return target health info', function(done) {
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn),
-//         "httpMethod": "GET",
-//         "body": null
-//       };
+	describe('#getTargetHealth - success', function() {
+		it('Should return target health info', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn),
+        "httpMethod": "GET",
+        "body": null
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then(function(response){
-//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-// 				})
-//         .catch(err => {
-//           console.error(err);
-//           assert.fail(err);
-//         })
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then(function(response){
+          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+				})
+        .catch(err => {
+          console.error(err);
+          assert.fail(err);
+        })
+				.done(function(){
+					done();
+				});
+		});
     
-// 		it('Should throw 500 error', function(done) {
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn + 'bad'),
-//         "httpMethod": "GET",
-//         "body": null
-//       };
+		it('Should throw 500 error', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn + 'bad'),
+        "httpMethod": "GET",
+        "body": null
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then(function(response){
-//           assert.equal(response.statusCode, 500, 'Status code should be equal 500');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then(function(response){
+          assert.equal(response.statusCode, 500, 'Status code should be equal 500');
+				})
+				.done(function(){
+					done();
+				});
+		});
     
-// 	});
+	});
   
-//   describe('#deregisterTargets', function() {
+  describe('#deregisterTargets', function() {
     
-// 		it('De-Register by Url', function(done) {
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1),
-//         "httpMethod": "DELETE",
-//         "body": null
-//       };
+		it('De-Register by Url', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1),
+        "httpMethod": "DELETE",
+        "body": null
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then((response) => {
-//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+				})
+				.done(function(){
+					done();
+				});
+		});
 
-// 		it('De-Register by Url - invalid group arn', function(done) {
-//       //Bad instances id does not causes an error from aws-cli :-(
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn + 'bad') + "/" + encodeURIComponent(instanceId1),
-//         "httpMethod": "DELETE",
-//         "body": null
-//       };
+		it('De-Register by Url - invalid group arn', function(done) {
+      //Bad instances id does not causes an error from aws-cli :-(
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn + 'bad') + "/" + encodeURIComponent(instanceId1),
+        "httpMethod": "DELETE",
+        "body": null
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then((response) => {
-//           assert.equal(response.statusCode, 500, 'Status code should be equal 500');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 500, 'Status code should be equal 500');
+				})
+				.done(function(){
+					done();
+				});
+		});
     
-// 		it('De-Register by Url + Port', function(done) {
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1) + "/" + port,
-//         "httpMethod": "DELETE",
-//         "body": null
-//       };
+		it('De-Register by Url + Port', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1) + "/" + port,
+        "httpMethod": "DELETE",
+        "body": null
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then((response) => {
-//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+				})
+				.done(function(){
+					done();
+				});
+		});
 
-//     it('De-Register by Body', function(done) {
-//       const body = [
-//         {
-//           Id: instanceId1
-//         },
-//         {
-//           Id: instanceId2,
-//           Port: port
-//         }
-//       ];
+    it('De-Register by Body', function(done) {
+      const body = [
+        {
+          Id: instanceId1
+        },
+        {
+          Id: instanceId2,
+          Port: port
+        }
+      ];
 
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn),
-//         "httpMethod": "DELETE",
-//         "body": JSON.stringify(body)
-//       };
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn),
+        "httpMethod": "DELETE",
+        "body": JSON.stringify(body)
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then((response) => {
-//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
-// 	});
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+				})
+				.done(function(){
+					done();
+				});
+		});
+	});
   
   describe('#registerTargets', function() {
     
