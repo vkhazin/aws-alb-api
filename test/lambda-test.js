@@ -37,27 +37,27 @@ describe('lambda', function() {
 // 		});
 // 	});
 
-	describe('#getTargetHealth - success', function() {
-		it('Should return target health info', function(done) {
-      const event = {
-        "resource": "/",
-        "path": "/" + encodeURIComponent(targetGroupArn),
-        "httpMethod": "GET",
-        "body": null
-      };
+// 	describe('#getTargetHealth - success', function() {
+// 		it('Should return target health info', function(done) {
+//       const event = {
+//         "resource": "/",
+//         "path": "/" + encodeURIComponent(targetGroupArn),
+//         "httpMethod": "GET",
+//         "body": null
+//       };
       
-			lambda.handler(event, context, callback)
-				.then(function(response){
-          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-				})
-        .catch(err => {
-          console.error(err);
-          assert.fail(err);
-        })
-				.done(function(){
-					done();
-				});
-		});
+// 			lambda.handler(event, context, callback)
+// 				.then(function(response){
+//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+// 				})
+//         .catch(err => {
+//           console.error(err);
+//           assert.fail(err);
+//         })
+// 				.done(function(){
+// 					done();
+// 				});
+// 		});
     
 // 		it('Should throw 500 error', function(done) {
 //       const event = {
@@ -76,7 +76,7 @@ describe('lambda', function() {
 // 				});
 // 		});
     
-	});
+// 	});
   
 //   describe('#deregisterTargets', function() {
     
@@ -160,86 +160,86 @@ describe('lambda', function() {
 // 		});
 // 	});
   
-//   describe('#registerTargets', function() {
+  describe('#registerTargets', function() {
     
-// 		it('Register by Url', function(done) {
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1),
-//         "httpMethod": "POST",
-//         "body": null
-//       };
+		it('Register by Url', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1),
+        "httpMethod": "POST",
+        "body": null
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then((response) => {
-//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+				})
+				.done(function(){
+					done();
+				});
+		});
 
-// 		it('Register by Url - invalid input', function(done) {
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1 + 'bad'),
-//         "httpMethod": "POST",
-//         "body": null
-//       };
+		it('Register by Url - invalid input', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1 + 'bad'),
+        "httpMethod": "POST",
+        "body": null
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then((response) => {
-//           assert.equal(response.statusCode, 500, 'Status code should be equal 500');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 500, 'Status code should be equal 500');
+				})
+				.done(function(){
+					done();
+				});
+		});
   
-//     it('Register by Url + Port', function(done) {
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1) + "/" + port,
-//         "httpMethod": "POST",
-//         "body": null
-//       };
+    it('Register by Url + Port', function(done) {
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1) + "/" + port,
+        "httpMethod": "POST",
+        "body": null
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then((response) => {
-//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+				})
+				.done(function(){
+					done();
+				});
+		});
 
-//     it('Register by Body', function(done) {
-//       const body = [
-//         {
-//           Id: instanceId1
-//         },
-//         {
-//           Id: instanceId2,
-//           Port: port
-//         }
-//       ];
+    it('Register by Body', function(done) {
+      const body = [
+        {
+          Id: instanceId1
+        },
+        {
+          Id: instanceId2,
+          Port: port
+        }
+      ];
 
-//       const event = {
-//         "resource": "/",
-//         "path": "/" + encodeURIComponent(targetGroupArn),
-//         "httpMethod": "POST",
-//         "body": JSON.stringify(body)
-//       };
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn),
+        "httpMethod": "POST",
+        "body": JSON.stringify(body)
+      };
       
-// 			lambda.handler(event, context, callback)
-// 				.then((response) => {
-//           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
-// 				})
-// 				.done(function(){
-// 					done();
-// 				});
-// 		});
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 200, 'Status code should be equal 200');
+				})
+				.done(function(){
+					done();
+				});
+		});
    
-// 	});  
+	});  
   
 });

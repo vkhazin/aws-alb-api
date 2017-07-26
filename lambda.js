@@ -86,13 +86,16 @@ const deregisterTargets = (event, context, callback) => {
     ];
   
     return targetGroupModule.deregisterTargets(targetGroupArn, targets)
-      .then(data => {
-        const response = {
-          statusCode: 200,
-          body: data
-        };
-        callback(null, response);
-        return promise.resolve(response);        
+      .then(deregisterResponse => {
+        return targetGroupModule.getTargetsHealth(targetGroupArn)
+          .then(targetGroupResponse => {
+            const response = {
+              statusCode: 200,
+              body: targetGroupResponse
+            };
+            callback(null, response);
+            return promise.resolve(response);           
+          })     
       })
       .catch(err => {
         const response = {
@@ -120,14 +123,17 @@ const registerTargets = (event, context, callback) => {
     ];
   
     return targetGroupModule.registerTargets(targetGroupArn, targets)
-      .then(data => {
-        const response = {
-          statusCode: 200,
-          body: data
-        };
-        callback(null, response);
-        return promise.resolve(response);        
-      })
+      .then(registerResponse => {
+        return targetGroupModule.getTargetsHealth(targetGroupArn)
+          .then(targetGroupResponse => {
+            const response = {
+              statusCode: 200,
+              body: targetGroupResponse
+            };
+            callback(null, response);
+            return promise.resolve(response);           
+          })       
+      })      
       .catch(err => {
         const response = {
           statusCode: 500,
