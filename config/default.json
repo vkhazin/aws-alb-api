@@ -2,19 +2,23 @@
   "log": {
     "level": 2
   },
-  "authC": {
+  "auth": {
+    "authHeader": "x-api-key",
     "apiKeys": [
       {
-        "key": "asdfasdfs",
+        "apiKey": "29ed67a1-0818-442c-9729-6a342998872c",
         "roles": [
-          "nodejs-alb"
+          "smith-poc-alb-api"
         ]
       }
     ],
     "roles": [
       {
-        "role": "nodejs-alb",
-        "targetGroupArn": "aarn:aws:elasticloadbalancing:us-east-2:811322200214:targetgroup/smith-poc-nodejs-restart-tg/7c25fe0e5ca71022sdfasdf"
+        "role": "smith-poc-alb-api",
+        "targetGroupArns": [
+          "arn:aws:elasticloadbalancing:us-east-2:811322200214:targetgroup/smith-poc-nodejs-restart-tg/7c25fe0e5ca71022",
+          "bad-arn"
+        ]
       }
     ]
   }

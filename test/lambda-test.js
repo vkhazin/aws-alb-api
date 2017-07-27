@@ -24,6 +24,30 @@ const port = 3000;
       
 describe('lambda', function() {
   
+	describe('#Bad Route', function() {
+		it('Should return 404', function(done) {
+      
+      const event = {
+        "resource": "/",
+        "path": "/aaa/bbb/ccc",
+        "httpMethod": "GET",
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
+      };
+      
+			lambda.handler(event, context, callback)
+				.then(function(response){
+          assert.equal(response.statusCode, 404, 'Status code should be equal 404');
+          done();
+				})
+				.catch(() => {
+					done();
+				});
+		});
+	});
+  
 	describe('#echo', function() {
 		it('Should return echo info', function(done) {
 			lambda.handler(echoEvent, context, callback)
@@ -38,12 +62,16 @@ describe('lambda', function() {
 	});
 
 	describe('#getTargetHealth - success', function() {
+    
 		it('Should return target health info', function(done) {
       const event = {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn),
         "httpMethod": "GET",
-        "body": null
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
       };
       
 			lambda.handler(event, context, callback)
@@ -58,13 +86,66 @@ describe('lambda', function() {
 					done();
 				});
 		});
+
+		it('Should return 401', function(done) {
+      
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn),
+        "httpMethod": "GET",
+        "body": null,
+        "headers": {
+          "x-api-key": "aaa"
+        }
+      };
+      
+			lambda.handler(event, context, callback)
+				.then(function(response){
+          assert.equal(response.statusCode, 401, 'Status code should be equal 401');
+				})
+        .catch(err => {
+          console.error(err);
+          assert.fail(err);
+        })
+				.done(function(){
+					done();
+				});
+		});
+
+		it('Should return 403', function(done) {
+      
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn + 'something different'),
+        "httpMethod": "GET",
+        "body": null,
+        "headers": {
+         "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
+      };
+      
+			lambda.handler(event, context, callback)
+				.then(function(response){
+          assert.equal(response.statusCode, 403, 'Status code should be equal 403');
+				})
+        .catch(err => {
+          console.error(err);
+          assert.fail(err);
+        })
+				.done(function(){
+					done();
+				});
+		});
     
 		it('Should throw 500 error', function(done) {
       const event = {
         "resource": "/",
-        "path": "/" + encodeURIComponent(targetGroupArn + 'bad'),
+        "path": "/" + encodeURIComponent('bad-arn'),
         "httpMethod": "GET",
-        "body": null
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
       };
       
 			lambda.handler(event, context, callback)
@@ -75,7 +156,7 @@ describe('lambda', function() {
 					done();
 				});
 		});
-    
+		
 	});
   
   describe('#deregisterTargets', function() {
@@ -85,9 +166,11 @@ describe('lambda', function() {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1),
         "httpMethod": "DELETE",
-        "body": null
-      };
-      
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
+      }; 
 			lambda.handler(event, context, callback)
 				.then((response) => {
           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
@@ -97,13 +180,56 @@ describe('lambda', function() {
 				});
 		});
 
+		it('De-Register by Url - NotAuthenticated', function(done) {
+      //Bad instances id does not causes an error from aws-cli :-(
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1),
+        "httpMethod": "DELETE",
+        "body": null,
+        "headers": {
+          "x-api-key": "aaa"
+        }
+      };
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 401, 'Status code should be equal 401');
+				})
+				.done(function(){
+					done();
+				});
+		});
+ 
+ 		it('De-Register by Url - NotAuthorized', function(done) {
+      //Bad instances id does not causes an error from aws-cli :-(
+      const event = {
+        "resource": "/",
+        "path": "/" + 'not-authorized' + "/" + encodeURIComponent(instanceId1),
+        "httpMethod": "DELETE",
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
+      };   
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 403, 'Status code should be equal 403');
+				})
+				.done(function(){
+					done();
+				});
+		});
+    
 		it('De-Register by Url - invalid group arn', function(done) {
       //Bad instances id does not causes an error from aws-cli :-(
       const event = {
         "resource": "/",
-        "path": "/" + encodeURIComponent(targetGroupArn + 'bad') + "/" + encodeURIComponent(instanceId1),
+        "path": "/" + 'bad-arn' + "/" + encodeURIComponent(instanceId1),
         "httpMethod": "DELETE",
-        "body": null
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
       };
       
 			lambda.handler(event, context, callback)
@@ -120,7 +246,10 @@ describe('lambda', function() {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1) + "/" + port,
         "httpMethod": "DELETE",
-        "body": null
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
       };
       
 			lambda.handler(event, context, callback)
@@ -147,7 +276,10 @@ describe('lambda', function() {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn),
         "httpMethod": "DELETE",
-        "body": JSON.stringify(body)
+        "body": JSON.stringify(body),
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
       };
       
 			lambda.handler(event, context, callback)
@@ -167,9 +299,11 @@ describe('lambda', function() {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1),
         "httpMethod": "POST",
-        "body": null
-      };
-      
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }        
+      };     
 			lambda.handler(event, context, callback)
 				.then((response) => {
           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
@@ -179,14 +313,56 @@ describe('lambda', function() {
 				});
 		});
 
+		it('Register by Url - NotAuthenticated', function(done) {
+      //Bad instances id does not causes an error from aws-cli :-(
+      const event = {
+        "resource": "/",
+        "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1),
+        "httpMethod": "POST",
+        "body": null,
+        "headers": {
+          "x-api-key": "aaa"
+        }
+      };
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 401, 'Status code should be equal 401');
+				})
+				.done(function(){
+					done();
+				});
+		});
+
+ 		it('Register by Url - NotAuthorized', function(done) {
+      //Bad instances id does not causes an error from aws-cli :-(
+      const event = {
+        "resource": "/",
+        "path": "/" + 'not-authorized' + "/" + encodeURIComponent(instanceId1),
+        "httpMethod": "POST",
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }
+      };   
+			lambda.handler(event, context, callback)
+				.then((response) => {
+          assert.equal(response.statusCode, 403, 'Status code should be equal 403');
+				})
+				.done(function(){
+					done();
+				});
+		});
+		    
 		it('Register by Url - invalid input', function(done) {
       const event = {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1 + 'bad'),
         "httpMethod": "POST",
-        "body": null
-      };
-      
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }      
+      };    
 			lambda.handler(event, context, callback)
 				.then((response) => {
           assert.equal(response.statusCode, 500, 'Status code should be equal 500');
@@ -201,9 +377,11 @@ describe('lambda', function() {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn) + "/" + encodeURIComponent(instanceId1) + "/" + port,
         "httpMethod": "POST",
-        "body": null
-      };
-      
+        "body": null,
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }      
+      };  
 			lambda.handler(event, context, callback)
 				.then((response) => {
           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
@@ -223,14 +401,15 @@ describe('lambda', function() {
           Port: port
         }
       ];
-
       const event = {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn),
         "httpMethod": "POST",
-        "body": JSON.stringify(body)
-      };
-      
+        "body": JSON.stringify(body),
+        "headers": {
+          "x-api-key": "29ed67a1-0818-442c-9729-6a342998872c"
+        }      
+      };    
 			lambda.handler(event, context, callback)
 				.then((response) => {
           assert.equal(response.statusCode, 200, 'Status code should be equal 200');
@@ -241,5 +420,5 @@ describe('lambda', function() {
 		});
    
 	});  
-  
+
 });

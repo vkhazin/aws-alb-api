@@ -6,19 +6,16 @@ exports.create =  function (config, logger) {
   return (function () {
     return {      
       describeInstances: (instanceIds) => {
-//         console.log('instanceIds: ', instanceIds);
         return ec2.describeInstancesAsync({
           InstanceIds: instanceIds
         })
         .then(ec2Info => {
-//           console.log('ec2Info: ', JSON.stringify(ec2Info));
           const instancesData = ec2Info.Reservations.map(reservation => 
               reservation.Instances.map(instance => 
                   instance
               )
           ).reduce((left, right) => left.concat(right), []);
           
-//           console.log('instancesData: ', JSON.stringify(instancesData));
           return promise.resolve(instancesData);
         });
       }

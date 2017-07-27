@@ -13,7 +13,7 @@ describe('targetGroup', function() {
     targetGroup.getTargetsHealth(targetGroupArn)
       .then(response => {
         console.log(JSON.stringify(response))
-        assert(response);
+        assert.notEqual(response.length, 0, 'Empty response is not expected');
       })
       .done(function(){
         done();
