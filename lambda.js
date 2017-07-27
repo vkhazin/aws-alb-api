@@ -28,7 +28,9 @@ const authWrapper = (requestHandler, event, context, callback) => {
     .catch(auth.NotAuthenticated, err => {
       const response = {
         statusCode: 401,
-        body: err.message.error
+        body: {
+          error: err.message.error
+        }
       };
       callback(null, response);
       return promise.resolve(response);      
@@ -36,7 +38,9 @@ const authWrapper = (requestHandler, event, context, callback) => {
     .catch(auth.NotAuthorized, err => {
       const response = {
         statusCode: 403,
-        body: err.message.error
+        body: {
+          error: err.message.error
+        }
       };
       callback(null, response);
       return promise.resolve(response); 
