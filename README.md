@@ -8,8 +8,10 @@ Provide restful end-point to register/deregister targets in a ALB Target Group
 ## List Targets Health
 ### Request
 ```
+Headers: {'x-api-key': '29ed67a1-0818-442c-9729-6a342998872c'}
 GET: /:target-group-arn
 ```
+
 ### Response
 ```
 [
@@ -68,12 +70,14 @@ GET: /:target-group-arn
 
 ### Request with instance-id
 ```
+Headers: {'x-api-key': '29ed67a1-0818-442c-9729-6a342998872c'}
 DELETE: /:target-group-arn/:instanceId
 DELETE: /:target-group-arn/:instanceId/:port
 ```
 
 ### Request with Body
 ```
+Headers: {'x-api-key': '29ed67a1-0818-442c-9729-6a342998872c'}
 DELETE: /:target-group-arn
 Body: [
   {
@@ -105,12 +109,14 @@ Body: [
 
 ## Register Target with instance-id
 ```
+Headers: {'x-api-key': '29ed67a1-0818-442c-9729-6a342998872c'}
 POST: /:target-group-arn/:instanceId
 POST: /:target-group-arn/:instanceId/:port
 ```
 
 ## Register Target with body
 ```
+Headers: {'x-api-key': '29ed67a1-0818-442c-9729-6a342998872c'}
 POST: /:target-group-arn
 Body: [
   {
