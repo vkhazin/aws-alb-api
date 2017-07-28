@@ -29,9 +29,12 @@ const authWrapper = (requestHandler, event, context, callback) => {
       const response = {
         statusCode: 401,
         body: {
-          error: err.message.error
+          error: err.message.error,
+          targetGroupArn: targetGroupArn,
+          apiKey: apiKey
         }
       };
+      logger.error(response);
       callback(null, response);
       return promise.resolve(response);      
     })
@@ -39,9 +42,12 @@ const authWrapper = (requestHandler, event, context, callback) => {
       const response = {
         statusCode: 403,
         body: {
-          error: err.message.error
+          error: err.message.error,
+          targetGroupArn: targetGroupArn,
+          apiKey: apiKey
         }
       };
+      logger.error(response);
       callback(null, response);
       return promise.resolve(response); 
     })  
@@ -50,6 +56,7 @@ const authWrapper = (requestHandler, event, context, callback) => {
         statusCode: 500,
         body: err
       };
+      logger.error(response);
       callback(null, response);
       return promise.resolve(response);
     });
