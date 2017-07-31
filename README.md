@@ -1,7 +1,8 @@
 # AWS ALB Api #
 
 # Overview #
-Provide restful end-point to register/deregister targets in a ALB Target Group
+Provide restful end-point to register/de-register targets in a ALB Target Group
+![Diagram](./media/aws-alb-api.jpg)
 
 # End-Points
 
@@ -70,7 +71,7 @@ GET: /:target-group-arn
 
 ### Request with instance-id
 ```
-Headers: {'x-api-key': '29ed67a1-0818-442c-9729-6a342998872c'}
+Header: {'x-api-key': '29ed67a1-0818-442c-9729-6a342998872c'}
 DELETE: /:target-group-arn/:instanceId
 DELETE: /:target-group-arn/:instanceId/:port
 ```
