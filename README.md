@@ -146,3 +146,59 @@ Body: [
   }
 ]
 ```
+
+# Roles and Policies #
+
+## Lambda ALB Policy ##
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "ec2:Describe*",
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:DescribeTargetHealth*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:RegisterTargets*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:DeRegisterTargets*",
+      "Resource": "*"
+    }       
+  ]
+}
+```
+
+## Lambda CloudWatch Policy ##
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    }
+  ]
+}
+```
+
+## AWS Predefined Policies ##
+```
+CloudWatchLogsFullAccess
+CloudWatchEventsFullAccess
+```
