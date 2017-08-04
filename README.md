@@ -147,7 +147,7 @@ Body: [
 ]
 ```
 
-# Roles and Policies #
+# IAM Policies #
 
 ## Lambda ALB Policy ##
 ```
@@ -197,7 +197,7 @@ Body: [
 }
 ```
 
-## AWS Predefined Policies ##
+## AWS Predefined Policies Required ##
 ```
 CloudWatchLogsFullAccess
 CloudWatchEventsFullAccess
