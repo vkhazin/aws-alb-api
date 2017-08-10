@@ -149,6 +149,24 @@ Body: [
 
 # IAM Policies #
 
+## API Gateway Deployment Policy
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "apigateway:*"
+      ],
+      "Resource": [
+        "arn:aws:apigateway:us-east-2::/*/*"
+      ]
+    }
+  ]
+}
+```
+
 ## Lambda ALB Policy ##
 ```
 {
