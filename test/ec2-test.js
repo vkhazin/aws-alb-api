@@ -1,4 +1,5 @@
-const config 		          = require('config');
+process.env.config = JSON.stringify(require('../config/local-testing.json'));
+const config 		          = (process.env.config)? JSON.parse(process.env.config): require('config');
 const logger              = require('../logger').create(config);
 const assert              = require('assert');
 const ec2		              = require('../ec2').create(config, logger);

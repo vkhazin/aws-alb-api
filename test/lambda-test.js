@@ -1,5 +1,4 @@
-process.env.config = JSON.stringify(require('../config/default.json'));
-
+process.env.config = JSON.stringify(require('../config/local-testing.json'));
 const lambda		    = require('../lambda');
 const assert        = require('assert');
 

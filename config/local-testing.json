@@ -17,7 +17,7 @@
       {
         "role": "smith-poc-alb-api",
         "targetGroupArns": [
-          "arn:aws:elasticloadbalancing:us-east-2:811322200214:targetgroup/smith-poc-nodejs-restart-tg/7c25fe0e5ca71022",
+          "arn:aws:elasticloadbalancing:us-east-2:811322200214:targetgroup/smith(.+)",
           "bad-arn"
         ]
       },
