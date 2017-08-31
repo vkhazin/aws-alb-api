@@ -3,7 +3,7 @@
 Dependencies
 **********************************************************************************/
 const promise             = require('bluebird')
-const config 		          = require('config');
+const config 		          = (process.env.config)? JSON.parse(process.env.config): require('config');
 const logger              = require('./logger').create(config);
 const echoModule          = require('./echo').create(config, logger);
 const targetGroupModule   = require('./targetGroup').create(config, logger);
@@ -15,11 +15,14 @@ const auth                = require('./auth').create(config, logger);
 //Utilities
 /*********************************************************************************/
 const getApiKey = (event) => {
-  const apiKey = (event.headers)? event.headers[config.auth.authHeader]: null;
+  const apiKey = event.headers[config.acl.authCHeader];
   return apiKey;
 };
 
 const authWrapper = (requestHandler, event, context, callback) => {
+  
+//   console.log(process.env);
+  
   const apiKey = getApiKey(event);
   const targetGroupArn = event.pathParameters.targetGroupArn; 
   

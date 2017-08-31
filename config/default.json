@@ -2,13 +2,14 @@
   "log": {
     "level": 2
   },
-  "auth": {
-    "authHeader": "x-api-key",
+  "acl": {
+    "authCHeader": "x-api-key",
     "apiKeys": [
       {
         "apiKey": "29ed67a1-0818-442c-9729-6a342998872c",
         "roles": [
-          "smith-poc-alb-api"
+          "smith-poc-alb-api",
+          "perf8"
         ]
       }
     ],
@@ -19,7 +20,13 @@
           "arn:aws:elasticloadbalancing:us-east-2:811322200214:targetgroup/smith-poc-nodejs-restart-tg/7c25fe0e5ca71022",
           "bad-arn"
         ]
-      }
+      },
+      {
+        "role": "perf8",
+        "targetGroupArns": [
+          "arn:aws:elasticloadbalancing:us-east-2:811322200214:targetgroup/perf8(.+)"
+        ]
+      }      
     ]
   }
 }

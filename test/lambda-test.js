@@ -1,3 +1,5 @@
+process.env.config = JSON.stringify(require('../config/default.json'));
+
 const lambda		    = require('../lambda');
 const assert        = require('assert');
 
@@ -87,8 +89,7 @@ describe('lambda', function() {
 				});
 		});
 
-		it('Should return 401', function(done) {
-      
+		it('Should return 401', function(done) {      
       const event = {
         "resource": "/",
         "path": "/" + encodeURIComponent(targetGroupArn),
