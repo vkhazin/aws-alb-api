@@ -220,3 +220,9 @@ Body: [
 CloudWatchLogsFullAccess
 CloudWatchEventsFullAccess
 ```
+
+# Configuration
+
+* [Sample configuration file](./config/local-testing.json)
+* Entire configuration Json content should be added to lambda function environment variable with key ```config```
+![lambda env variables](./media/lambda-env-variable.png)
