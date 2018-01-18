@@ -1,26 +1,25 @@
 {
-  "name": "aws-alb-api",
+  "name": "file-box-api",
   "version": "1.0.0",
-  "description": "End-point using AWS Gateway + Lambda to register/unregister Targets",
+  "description": "End-point using AWS Gateway + Lambda to upload/download files",
   "main": "lambda.js",
   "scripts": {
-    "test": "clear;mocha"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vkhazin/aws-alb-api.git"
+    "url": "git+https://github.com/jaredjensen/file-box-api.git"
   },
   "keywords": [
     "nodejs",
-    "aws",
-    "alb"
+    "aws"
   ],
-  "author": "Vlad Khazin <vladimir.khazin@icssolutions.ca>",
+  "author": "Jared Jensen <jaredjensen@smith.co>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vkhazin/aws-alb-api/issues"
+    "url": "https://github.com/jaredjensen/file-box-api/issues"
   },
-  "homepage": "https://github.com/vkhazin/aws-alb-api#readme",
+  "homepage": "https://github.com/jaredjensen/file-box-api#readme",
   "dependencies": {
     "aws-lambda-http-router": "^1.0.5",
     "aws-sdk": "^2.88.0",
