@@ -1,5 +1,5 @@
 'use strict';
-exports.create =  function (config) {
+exports.create = function (config) {
   if (config.log && config.log.level) {
     var logLevel = config.log.level;
   } else {
